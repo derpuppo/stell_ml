@@ -8,7 +8,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 # Carga de datos
 data = pd.read_csv('stell_metrics_2_window2000ms.csv')  # Asume que los datos están exportados como CSV
 
-filtered_data = data.loc[(data['epc'] == "EEA12222") & (data['zone'] != "")] # EEA10001, EEA12222, EEA14444
+filtered_data = data.loc[(data['epc'] != "") & (data['zone'] != "")] # EEA10001, EEA12222, EEA14444
 
 # Características y etiquetas
 # freq_count,rssi_count,rssi_max,rssi_min,rssi_spread,rssi_stdev,zone
