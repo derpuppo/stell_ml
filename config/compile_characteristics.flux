@@ -3,8 +3,11 @@ import "regexp"
 PERIOD=2000ms
 tagSelector=regexp.compile(v: v.stellantis_tag_regexp)
 
+START = 2025-01-14T08:36:00Z
+STOP = 2025-01-14T08:39:00Z
+
 data_freq = from(bucket: "rfid")
-  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> range(start: START, stop: STOP)
   |> filter(fn: (r) => r["_measurement"] == "read" and r._field == "frequency" and r.epc =~ tagSelector)
   |> map(fn: (r) => ({ r with _value: int(v: (int(v: r._value) - 865900) / 400) }))
   |> map(fn: (r) => ({ r with _value: if (r._value >= 5) then (r._value - 124 + 5) else r._value }))
@@ -16,12 +19,12 @@ data_freq = from(bucket: "rfid")
   |> to(bucket: "stell_metrics")
 
 data_rssi = from(bucket: "rfid")
-  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> range(start: START, stop: STOP)
   |> filter(fn: (r) => r["_measurement"] == "read" and r._field == "value" and r.epc =~ tagSelector)
   //|> yield()
 
-t0 = 2025-01-10T10:11:00Z
-t1 = 2025-01-10T10:13:00Z
+t0 = 2025-01-14T08:37:00Z
+t1 = 2025-01-14T08:38:00Z
 
 data_rssi
   |> aggregateWindow(every: PERIOD, fn: count)

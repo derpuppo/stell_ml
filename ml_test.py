@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import classification_report, confusion_matrix
 
 # Carga de datos
-data = pd.read_csv('stell_metrics_2_window2000ms.csv')  # Asume que los datos están exportados como CSV
+data = pd.read_csv('stell_metrics_3_window2000ms.csv')  # Asume que los datos están exportados como CSV
 
 filtered_data = data.loc[(data['epc'] != "") & (data['zone'] != "")] # EEA10001, EEA12222, EEA14444
 
